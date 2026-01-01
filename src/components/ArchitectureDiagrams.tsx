@@ -4,37 +4,43 @@ import diagram2 from "@/assets/benchy-diagram2.svg";
 import diagram3 from "@/assets/benchy-diagram3.svg";
 
 const diagrams = [
-  { id: 1, src: diagram1, label: "Overview" },
-  { id: 2, src: diagram2, label: "Task Flow" },
-  { id: 3, src: diagram3, label: "Components" },
+  { id: 1, src: diagram1, label: "Overview", caption: "High-level system architecture" },
+  { id: 2, src: diagram2, label: "Task Flow", caption: "How tasks are processed" },
+  { id: 3, src: diagram3, label: "Components", caption: "Core component relationships" },
 ];
 
 const ArchitectureDiagrams = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <div className="space-y-4">
-      <div className="flex gap-1 border-b border-border">
+    <div className="space-y-6">
+      {/* Pill-style tabs */}
+      <div className="flex justify-center gap-2">
         {diagrams.map((diagram, index) => (
           <button
             key={diagram.id}
             onClick={() => setActiveTab(index)}
-            className={`px-4 py-2 font-mono text-sm transition-colors ${
+            className={`rounded-full px-5 py-2 font-mono text-sm transition-all ${
               activeTab === index
-                ? "border-b-2 border-primary text-foreground"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-primary text-primary-foreground shadow-md"
+                : "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
             }`}
           >
             {diagram.label}
           </button>
         ))}
       </div>
-      <div className="overflow-hidden rounded-md border border-border bg-card p-6">
+      
+      {/* Diagram display */}
+      <div className="rounded-xl bg-card p-8">
         <img
           src={diagrams[activeTab].src}
           alt={`Benchy architecture - ${diagrams[activeTab].label}`}
           className="mx-auto max-w-full"
         />
+        <p className="mt-6 text-center text-sm text-muted-foreground">
+          {diagrams[activeTab].caption}
+        </p>
       </div>
     </div>
   );

@@ -1,6 +1,25 @@
 import { Github, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
+interface HeaderLinkProps {
+  href: string;
+  children: React.ReactNode;
+  external?: boolean;
+}
+
+const HeaderLink = ({ href, children, external }: HeaderLinkProps) => {
+  return (
+    <a
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+    >
+      {children}
+    </a>
+  );
+};
+
 const Header = () => {
   const [isDark, setIsDark] = useState(false);
 
@@ -15,29 +34,31 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-14 max-w-4xl items-center justify-between px-6">
-        <a href="/" className="font-mono text-xl font-semibold text-foreground">
+    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md">
+      <div className="container mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
+        <a href="/" className="font-mono text-2xl font-semibold tracking-tight text-foreground">
           benchy
         </a>
-        <div className="flex items-center gap-4">
+        <nav className="flex items-center gap-8">
+          <HeaderLink href="#docs">Docs</HeaderLink>
+          <HeaderLink href="https://latamboard.ai" external>Leaderboard</HeaderLink>
           <a
             href="https://github.com/surus-inc/benchy"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-muted-foreground transition-colors hover:text-foreground"
+            className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
             aria-label="GitHub repository"
           >
             <Github className="h-5 w-5" />
           </a>
           <button
             onClick={toggleTheme}
-            className="text-muted-foreground transition-colors hover:text-foreground"
+            className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             aria-label="Toggle theme"
           >
-            {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
-        </div>
+        </nav>
       </div>
     </header>
   );
