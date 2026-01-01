@@ -4,7 +4,7 @@ import ArchitectureDiagrams from "@/components/ArchitectureDiagrams";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background dot-pattern">
       <Header />
       
       <main>
