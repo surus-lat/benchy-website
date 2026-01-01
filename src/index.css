@@ -117,4 +117,13 @@
     @apply text-xs font-medium uppercase tracking-widest text-muted-foreground;
     letter-spacing: 0.15em;
   }
+
+  .dot-pattern {
+    background-image: radial-gradient(circle, hsl(var(--foreground) / 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .dark .dot-pattern {
+    background-image: radial-gradient(circle, hsl(var(--foreground) / 0.06) 1px, transparent 1px);
+  }
 }
