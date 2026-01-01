@@ -130,7 +130,7 @@ benchy run --provider openai --model gpt-4o --tasks my_task`}
                 >
                   LatamBoard
                 </a>
-                <span className="text-muted-foreground/60">by SURUS</span>
+                <a href="https://surus.lat" className="text-muted-foreground/60 transition-colors hover:text-primary">by SURUS</a>
               </div>
             </div>
           </div>
