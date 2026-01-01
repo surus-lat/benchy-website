@@ -44,8 +44,8 @@ const ArchitectureDiagrams = () => {
         <img
           src={diagrams[activeTab].src}
           alt={`Benchy architecture - ${diagrams[activeTab].label}`}
-          className="mx-auto max-w-full drop-shadow-2xl"
-          style={{ filter: "drop-shadow(0 25px 50px rgba(0, 0, 0, 0.25))" }}
+          className="mx-auto max-w-full"
+          style={{ filter: "drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08))" }}
         />
         <p className="mt-6 text-center text-sm text-muted-foreground">
           {diagrams[activeTab].caption}
