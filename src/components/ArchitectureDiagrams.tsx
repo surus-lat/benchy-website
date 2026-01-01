@@ -31,12 +31,12 @@ const ArchitectureDiagrams = () => {
         ))}
       </div>
       
-      {/* Diagram display - floating style with solid background to cover dots */}
-      <div className="rounded-xl bg-background p-8 shadow-sm">
+      {/* Diagram display - floating style */}
+      <div className="p-4">
         <img
           src={diagrams[activeTab].src}
           alt={`Benchy architecture - ${diagrams[activeTab].label}`}
-          className="mx-auto max-w-full"
+          className="mx-auto max-w-full drop-shadow-lg"
         />
         <p className="mt-6 text-center text-sm text-muted-foreground">
           {diagrams[activeTab].caption}
