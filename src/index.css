@@ -126,11 +126,11 @@
 
   .dot-pattern {
     background-image: radial-gradient(circle, hsl(var(--foreground) / 0.15) 1px, transparent 1.5px);
-    background-size: 16px 16px;
+    background-size: 18px 18px;
   }
 
   .dark .dot-pattern {
-    background-image: radial-gradient(circle, hsl(var(--foreground) / 0.12) 1.5px, transparent 1.5px);
-    background-size: 16px 16px;
+    background-image: radial-gradient(circle, hsl(var(--foreground) / 0.12) 1px, transparent 1.5px);
+    background-size: 18px 18px;
   }
 }
