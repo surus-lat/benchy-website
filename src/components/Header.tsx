@@ -35,7 +35,7 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 px-6 pt-4">
-      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between rounded-full bg-background/80 px-6 backdrop-blur-md border border-border/50">
+      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between rounded-full bg-background/80 px-6 backdrop-blur-md border border-border/50 shadow-lg shadow-black/5 dark:shadow-black/20">
         <a href="/" className="font-mono text-2xl font-semibold tracking-tight text-foreground">
           benchy
         </a>
