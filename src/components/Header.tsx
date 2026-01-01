@@ -45,8 +45,7 @@ const Header = () => {
           benchy
         </a>
         <nav className="flex items-center gap-8">
-          <HeaderLink href="#docs">Docs</HeaderLink>
-          <HeaderLink href="https://latamboard.ai" external>Leaderboard</HeaderLink>
+          <HeaderLink href="https://latamboard.ai" external>LatamBoard</HeaderLink>
           <a
             href="https://github.com/surus-lat/benchy"
             target="_blank"
