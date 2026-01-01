@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import diagram1 from "@/assets/benchy-diagram1.svg";
 import diagram2 from "@/assets/benchy-diagram2.svg";
 import diagram3 from "@/assets/benchy-diagram3.svg";
@@ -11,6 +11,14 @@ const diagrams = [
 
 const ArchitectureDiagrams = () => {
   const [activeTab, setActiveTab] = useState(0);
+
+  // Preload all diagrams on mount
+  useEffect(() => {
+    diagrams.forEach((diagram) => {
+      const img = new Image();
+      img.src = diagram.src;
+    });
+  }, []);
 
   return (
     <div className="space-y-6">
