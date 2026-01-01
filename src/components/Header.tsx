@@ -34,8 +34,8 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md">
-      <div className="container mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
+    <header className="sticky top-0 z-50 px-6 pt-4">
+      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between rounded-full bg-background/80 px-6 backdrop-blur-md border border-border/50">
         <a href="/" className="font-mono text-2xl font-semibold tracking-tight text-foreground">
           benchy
         </a>
