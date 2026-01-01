@@ -21,11 +21,16 @@ const HeaderLink = ({ href, children, external }: HeaderLinkProps) => {
 };
 
 const Header = () => {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    // Check if dark mode is already set, default to light mode (false)
+    return document.documentElement.classList.contains("dark");
+  });
 
   useEffect(() => {
-    const isDarkMode = document.documentElement.classList.contains("dark");
-    setIsDark(isDarkMode);
+    // Ensure light mode is default on initial load
+    if (!document.documentElement.classList.contains("dark") && !document.documentElement.classList.contains("light")) {
+      document.documentElement.classList.remove("dark");
+    }
   }, []);
 
   const toggleTheme = () => {
@@ -43,7 +48,7 @@ const Header = () => {
           <HeaderLink href="#docs">Docs</HeaderLink>
           <HeaderLink href="https://latamboard.ai" external>Leaderboard</HeaderLink>
           <a
-            href="https://github.com/surus-inc/benchy"
+            href="https://github.com/surus-lat/benchy"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"

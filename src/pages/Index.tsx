@@ -119,7 +119,7 @@ benchy run --provider openai --model gpt-4o --tasks my_task`}
               <span className="font-mono text-xl font-semibold text-foreground">benchy</span>
               <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-muted-foreground">
                 <a
-                  href="https://github.com/surus-inc/benchy"
+                  href="https://github.com/surus-lat/benchy"
                   className="transition-colors hover:text-primary"
                 >
                   GitHub
@@ -130,7 +130,7 @@ benchy run --provider openai --model gpt-4o --tasks my_task`}
                 >
                   LATAM Leaderboard
                 </a>
-                <span className="text-muted-foreground/60">Built by Surus</span>
+                <span className="text-muted-foreground/60">by SURUS</span>
               </div>
             </div>
           </div>
