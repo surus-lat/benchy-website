@@ -128,7 +128,7 @@ benchy run --provider openai --model gpt-4o --tasks my_task`}
                   href="https://latamboard.ai"
                   className="transition-colors hover:text-primary"
                 >
-                  LATAM Leaderboard
+                  LatamBoard
                 </a>
                 <span className="text-muted-foreground/60">by SURUS</span>
               </div>
