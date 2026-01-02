@@ -117,7 +117,7 @@ benchy run --provider openai --model gpt-4o --tasks my_task`}
 
         {/* Footer */}
         <footer className="px-6 py-8">
-          <div className="flex flex-col items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-4">
             <a 
               href="https://discord.com/invite/VSqAr8BhKV" 
               className="text-muted-foreground/60 transition-colors hover:text-primary"
