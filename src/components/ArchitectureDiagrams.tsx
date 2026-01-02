@@ -63,7 +63,7 @@ const ArchitectureDiagrams = () => {
       
       {/* Diagram display - all rendered, visibility toggled */}
       <div className="p-4">
-        <div className="min-h-[65vh] flex items-start justify-center">
+        <div className="flex justify-center">
           {diagrams.map((diagram, index) => (
             <img
               key={diagram.id}
