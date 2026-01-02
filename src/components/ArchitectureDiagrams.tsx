@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import diagram1 from "@/assets/benchy-diagram1.svg";
 import diagram2 from "@/assets/benchy-diagram2.svg";
 import diagram3 from "@/assets/benchy-diagram3.svg";
@@ -12,14 +12,27 @@ const diagrams = [
 const ArchitectureDiagrams = () => {
   const [activeTab, setActiveTab] = useState(0);
   const tabsRef = useRef<HTMLDivElement>(null);
+  const pendingScrollRef = useRef(false);
 
   const handleTabClick = (index: number) => {
+    pendingScrollRef.current = true;
     setActiveTab(index);
-    tabsRef.current?.scrollIntoView({ 
-      behavior: 'smooth', 
-      block: 'start' 
-    });
   };
+
+  // Scroll after DOM updates to ensure consistent positioning
+  useLayoutEffect(() => {
+    if (!pendingScrollRef.current || !tabsRef.current) return;
+    pendingScrollRef.current = false;
+
+    const tabsRect = tabsRef.current.getBoundingClientRect();
+    const tabsTopOnPage = tabsRect.top + window.scrollY;
+    const header = document.querySelector("header");
+    const headerHeight = header?.getBoundingClientRect().height ?? 0;
+    const gap = 24; // breathing room below header
+    const targetY = tabsTopOnPage - headerHeight - gap;
+
+    window.scrollTo({ top: targetY, behavior: "smooth" });
+  }, [activeTab]);
 
   // Preload all diagrams on mount
   useEffect(() => {
