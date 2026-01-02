@@ -116,7 +116,7 @@ benchy run --provider openai --model gpt-4o --tasks my_task`}
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-border px-6 py-8">
+        <footer className="px-6 py-8">
           <div className="text-center">
             <a href="https://surus.lat" className="text-sm text-muted-foreground/60 transition-colors hover:text-primary">by SURUS</a>
           </div>
