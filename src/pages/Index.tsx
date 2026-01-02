@@ -39,7 +39,7 @@ pip install -e .`}
         </section>
 
         {/* Define */}
-        <section className="bg-muted/30 px-6 py-24">
+        <section className="px-6 py-24">
           <div className="mx-auto max-w-4xl">
             <span className="section-label mb-4 block">Workflow</span>
             <h2 className="mb-4 text-3xl font-light text-foreground">
@@ -81,7 +81,7 @@ benchy run --provider openai --model gpt-4o --tasks my_task`}
         </section>
 
         {/* Analyze */}
-        <section className="bg-muted/30 px-6 py-24">
+        <section className="px-6 py-24">
           <div className="mx-auto max-w-4xl">
             <span className="section-label mb-4 block">Results</span>
             <h2 className="mb-4 text-3xl font-light text-foreground">
