@@ -17,7 +17,7 @@ const Index = () => {
             A benchmarking engine for evaluating AI systems on task-specific performance.
           </p>
           <p className="mt-10 font-mono text-xs tracking-widest text-muted-foreground/60 bg-background/80 px-4 py-1.5 rounded-sm">
-            /&lt;task?&gt;/&lt;domain?&gt;/&lt;language?&gt;
+            `/&lt;task?&gt;/&lt;domain?&gt;/&lt;language?&gt`;
           </p>
         </section>
 
