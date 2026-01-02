@@ -1,16 +1,20 @@
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import diagram1 from "@/assets/benchy-diagram1.svg";
+import diagram1Dark from "@/assets/benchy-diagram1-dark.svg";
 import diagram2 from "@/assets/benchy-diagram2.svg";
+import diagram2Dark from "@/assets/benchy-diagram2-dark.svg";
 import diagram3 from "@/assets/benchy-diagram3.svg";
+import diagram3Dark from "@/assets/benchy-diagram3-dark.svg";
 
 const diagrams = [
-  { id: 1, src: diagram1, label: "Overview", caption: "High-level system architecture" },
-  { id: 2, src: diagram2, label: "Task Flow", caption: "How tasks are processed" },
-  { id: 3, src: diagram3, label: "Components", caption: "Core component relationships" },
+  { id: 1, src: diagram1, srcDark: diagram1Dark, label: "Overview", caption: "High-level system architecture" },
+  { id: 2, src: diagram2, srcDark: diagram2Dark, label: "Task Flow", caption: "How tasks are processed" },
+  { id: 3, src: diagram3, srcDark: diagram3Dark, label: "Components", caption: "Core component relationships" },
 ];
 
 const ArchitectureDiagrams = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
   const tabsRef = useRef<HTMLDivElement>(null);
   const pendingScrollRef = useRef(false);
 
@@ -18,6 +22,20 @@ const ArchitectureDiagrams = () => {
     pendingScrollRef.current = true;
     setActiveTab(index);
   };
+
+  // Listen for theme changes
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === "class") {
+          setIsDark(document.documentElement.classList.contains("dark"));
+        }
+      });
+    });
+    
+    observer.observe(document.documentElement, { attributes: true });
+    return () => observer.disconnect();
+  }, []);
 
   // Scroll after DOM updates to ensure consistent positioning
   useLayoutEffect(() => {
@@ -34,11 +52,13 @@ const ArchitectureDiagrams = () => {
     window.scrollTo({ top: targetY, behavior: "smooth" });
   }, [activeTab]);
 
-  // Preload all diagrams on mount
+  // Preload all diagrams on mount (both light and dark)
   useEffect(() => {
     diagrams.forEach((diagram) => {
-      const img = new Image();
-      img.src = diagram.src;
+      const imgLight = new Image();
+      imgLight.src = diagram.src;
+      const imgDark = new Image();
+      imgDark.src = diagram.srcDark;
     });
   }, []);
 
@@ -67,7 +87,7 @@ const ArchitectureDiagrams = () => {
           {diagrams.map((diagram, index) => (
             <img
               key={diagram.id}
-              src={diagram.src}
+              src={isDark ? diagram.srcDark : diagram.src}
               alt={`Benchy architecture - ${diagram.label}`}
               className={`max-w-full max-h-[65vh] w-auto h-auto ${activeTab !== index ? "hidden" : ""}`}
               style={{ filter: "drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08))" }}
