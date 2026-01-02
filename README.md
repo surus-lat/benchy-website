@@ -1,6 +1,6 @@
 # Benchy
 
-Architecture diagrams and documentation for Benchy.
+website for Benchy
 
 ## Tech Stack
 
