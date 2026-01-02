@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import diagram1 from "@/assets/benchy-diagram1.svg";
 import diagram2 from "@/assets/benchy-diagram2.svg";
 import diagram3 from "@/assets/benchy-diagram3.svg";
@@ -11,6 +11,15 @@ const diagrams = [
 
 const ArchitectureDiagrams = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const diagramRef = useRef<HTMLDivElement>(null);
+
+  const handleTabClick = (index: number) => {
+    setActiveTab(index);
+    diagramRef.current?.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'center' 
+    });
+  };
 
   // Preload all diagrams on mount
   useEffect(() => {
@@ -27,7 +36,7 @@ const ArchitectureDiagrams = () => {
         {diagrams.map((diagram, index) => (
           <button
             key={diagram.id}
-            onClick={() => setActiveTab(index)}
+            onClick={() => handleTabClick(index)}
             className={`rounded-full px-5 py-2 font-mono text-sm transition-all ${
               activeTab === index
                 ? "bg-primary text-primary-foreground shadow-md"
@@ -40,7 +49,7 @@ const ArchitectureDiagrams = () => {
       </div>
       
       {/* Diagram display - all rendered, visibility toggled */}
-      <div className="p-4">
+      <div className="p-4" ref={diagramRef}>
         {diagrams.map((diagram, index) => (
           <img
             key={diagram.id}
