@@ -11,13 +11,13 @@ const diagrams = [
 
 const ArchitectureDiagrams = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const diagramRef = useRef<HTMLDivElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
-    diagramRef.current?.scrollIntoView({ 
+    tabsRef.current?.scrollIntoView({ 
       behavior: 'smooth', 
-      block: 'center' 
+      block: 'start' 
     });
   };
 
@@ -32,7 +32,7 @@ const ArchitectureDiagrams = () => {
   return (
     <div className="space-y-6">
       {/* Pill-style tabs */}
-      <div className="flex justify-center gap-2">
+      <div className="flex justify-center gap-2 scroll-mt-24" ref={tabsRef}>
         {diagrams.map((diagram, index) => (
           <button
             key={diagram.id}
@@ -49,7 +49,7 @@ const ArchitectureDiagrams = () => {
       </div>
       
       {/* Diagram display - all rendered, visibility toggled */}
-      <div className="p-4" ref={diagramRef}>
+      <div className="p-4">
         {diagrams.map((diagram, index) => (
           <img
             key={diagram.id}
