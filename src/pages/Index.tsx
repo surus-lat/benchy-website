@@ -16,6 +16,9 @@ const Index = () => {
           <p className="mx-auto max-w-2xl text-xl leading-relaxed text-muted-foreground md:text-2xl">
             A benchmarking engine for evaluating AI systems on task-specific performance.
           </p>
+          <p className="mt-4 font-mono text-sm text-muted-foreground/50">
+            /&lt;task?&gt;/&lt;domain?&gt;/&lt;language?&gt;
+          </p>
         </section>
 
         {/* Installation */}
