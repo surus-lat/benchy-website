@@ -39,14 +39,17 @@ const ArchitectureDiagrams = () => {
         ))}
       </div>
       
-      {/* Diagram display - floating style */}
+      {/* Diagram display - all rendered, visibility toggled */}
       <div className="p-4">
-        <img
-          src={diagrams[activeTab].src}
-          alt={`Benchy architecture - ${diagrams[activeTab].label}`}
-          className="mx-auto max-w-full"
-          style={{ filter: "drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08))" }}
-        />
+        {diagrams.map((diagram, index) => (
+          <img
+            key={diagram.id}
+            src={diagram.src}
+            alt={`Benchy architecture - ${diagram.label}`}
+            className={`mx-auto max-w-full ${activeTab !== index ? "hidden" : ""}`}
+            style={{ filter: "drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08))" }}
+          />
+        ))}
         <p className="mt-6 text-center text-sm text-muted-foreground">
           {diagrams[activeTab].caption}
         </p>
