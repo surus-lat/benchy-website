@@ -116,26 +116,9 @@ benchy run --provider openai --model gpt-4o --tasks my_task`}
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-border px-6 py-16">
-          <div className="mx-auto max-w-4xl">
-            <div className="flex flex-col items-center gap-6 text-center">
-              <span className="font-mono text-xl font-semibold text-foreground">benchy</span>
-              <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-muted-foreground">
-                <a
-                  href="https://github.com/surus-lat/benchy"
-                  className="transition-colors hover:text-primary"
-                >
-                  GitHub
-                </a>
-                <a
-                  href="https://latamboard.ai"
-                  className="transition-colors hover:text-primary"
-                >
-                  LatamBoard
-                </a>
-                <a href="https://surus.lat" className="text-muted-foreground/60 transition-colors hover:text-primary">by SURUS</a>
-              </div>
-            </div>
+        <footer className="border-t border-border px-6 py-8">
+          <div className="text-center">
+            <a href="https://surus.lat" className="text-sm text-muted-foreground/60 transition-colors hover:text-primary">by SURUS</a>
           </div>
         </footer>
       </main>
