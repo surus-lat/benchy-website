@@ -29,11 +29,17 @@ const Index = () => {
               Installation
             </h2>
             <CodeBlock
-              code={`# Using uv (recommended)
-uv sync
+              code={`# Clone the repository
+git clone https://github.com/surus-ai/benchy.git
+cd benchy
 
-# Or with pip
-pip install -e .`}
+# Option 1: Setup script (recommended)
+bash setup.sh
+
+# Option 2: Manual with uv
+uv venv --python 3.12
+source .venv/bin/activate
+uv sync`}
             />
           </div>
         </section>
@@ -46,15 +52,18 @@ pip install -e .`}
               Define
             </h2>
             <p className="mb-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              Tasks specify data sources, prompts, and evaluation metrics. Interfaces handle provider-specific I/O.
+              Tasks are built using format handlers that provide data loading, prompt formatting, and metrics. Add a new task in ~30-50 lines of code.
             </p>
             <CodeBlock
-              code={`class MyTask(Task):
-    name = "my_task"
-    metrics = [ExactMatch(), F1Score()]
+              code={`# Tasks use format handlers for data, prompts, and metrics
+# Handlers: MultipleChoice, Structured, Freeform, Multimodal
+
+class SpanishTask(MultipleChoiceHandler):
+    name = "spanish"
+    dataset = "spanish_mmlu"
     
-    def get_prompts(self) -> list[Prompt]:
-        return self.load_dataset("my_dataset")`}
+    # Handlers provide: data loading, prompt formatting,
+    # metrics calculation, and capability checking`}
               language="python"
             />
           </div>
@@ -71,11 +80,12 @@ pip install -e .`}
               Execute benchmarks locally with vLLM or use cloud providers like OpenAI, Anthropic, or Together.
             </p>
             <CodeBlock
-              code={`# Local with vLLM
-benchy run --model meta-llama/Llama-3-8B --tasks my_task
+              code={`# Cloud provider (OpenAI)
+benchy eval --model-name gpt-4o-mini --tasks spanish --limit 10
 
-# Cloud provider
-benchy run --provider openai --model gpt-4o --tasks my_task`}
+# Local with vLLM
+benchy eval --model-name meta-llama/Llama-3.1-8B-Instruct \\
+  --provider vllm --vllm-config vllm_two_cards_mm --tasks spanish --limit 10`}
             />
           </div>
         </section>
@@ -92,11 +102,12 @@ benchy run --provider openai --model gpt-4o --tasks my_task`}
             </p>
             <CodeBlock
               code={`{
-  "task": "my_task",
-  "model": "gpt-4o",
+  "task": "spanish",
+  "model": "gpt-4o-mini",
+  "samples": 10,
   "metrics": {
-    "exact_match": 0.85,
-    "f1_score": 0.91
+    "accuracy": 0.85,
+    "exact_match": 0.82
   }
 }`}
               language="json"
