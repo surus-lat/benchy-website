@@ -30,7 +30,7 @@ const Index = () => {
             </h2>
             <CodeBlock
               code={`# Clone the repository
-git clone https://github.com/surus-ai/benchy.git
+git clone https://github.com/surus-lat/benchy.git
 cd benchy
 
 # Option 1: Setup script (recommended)
@@ -58,9 +58,9 @@ uv sync`}
               code={`# Tasks use format handlers for data, prompts, and metrics
 # Handlers: MultipleChoice, Structured, Freeform, Multimodal
 
-class SpanishTask(MultipleChoiceHandler):
-    name = "spanish"
-    dataset = "spanish_mmlu"
+class DocumentExtraction(StructuredHandler):
+    name = "document_extraction"
+    dataset = "extraction_bench"
     
     # Handlers provide: data loading, prompt formatting,
     # metrics calculation, and capability checking`}
@@ -81,11 +81,11 @@ class SpanishTask(MultipleChoiceHandler):
             </p>
             <CodeBlock
               code={`# Cloud provider (OpenAI)
-benchy eval --model-name gpt-4o-mini --tasks spanish --limit 10
+benchy eval --model-name gpt-4o-mini --tasks document_extraction --limit 10
 
 # Local with vLLM
 benchy eval --model-name meta-llama/Llama-3.1-8B-Instruct \\
-  --provider vllm --vllm-config vllm_two_cards_mm --tasks spanish --limit 10`}
+  --provider vllm --vllm-config vllm_two_cards_mm --tasks document_extraction --limit 10`}
             />
           </div>
         </section>
@@ -102,12 +102,12 @@ benchy eval --model-name meta-llama/Llama-3.1-8B-Instruct \\
             </p>
             <CodeBlock
               code={`{
-  "task": "spanish",
+  "task": "document_extraction",
   "model": "gpt-4o-mini",
   "samples": 10,
   "metrics": {
     "accuracy": 0.85,
-    "exact_match": 0.82
+    "f1_score": 0.89
   }
 }`}
               language="json"
