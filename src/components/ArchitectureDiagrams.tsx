@@ -1,15 +1,12 @@
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
-import diagram1 from "@/assets/benchy-diagram1.svg";
-import diagram1Dark from "@/assets/benchy-diagram1-dark.svg";
-import diagram2 from "@/assets/benchy-diagram2.svg";
-import diagram2Dark from "@/assets/benchy-diagram2-dark.svg";
-import diagram3 from "@/assets/benchy-diagram3.svg";
-import diagram3Dark from "@/assets/benchy-diagram3-dark.svg";
+import diagramOverview from "@/assets/benchy-diagram-overview.svg";
+import diagramOverviewDark from "@/assets/benchy-diagram-overview-dark.svg";
+import diagramContract from "@/assets/benchy-diagram-contract.svg";
+import diagramContractDark from "@/assets/benchy-diagram-contract-dark.svg";
 
 const diagrams = [
-  { id: 1, src: diagram1, srcDark: diagram1Dark, label: "Overview", caption: "High-level system architecture" },
-  { id: 2, src: diagram2, srcDark: diagram2Dark, label: "Task Flow", caption: "How tasks are processed" },
-  { id: 3, src: diagram3, srcDark: diagram3Dark, label: "Components", caption: "Core component relationships" },
+  { id: 1, src: diagramOverview, srcDark: diagramOverviewDark, label: "Overview", caption: "The authoring and execution path" },
+  { id: 2, src: diagramContract, srcDark: diagramContractDark, label: "The contract", caption: "B = (P, S, D), R = (B, AI) — the benchmark is separate from the AI-system" },
 ];
 
 const ArchitectureDiagrams = () => {
@@ -32,7 +29,7 @@ const ArchitectureDiagrams = () => {
         }
       });
     });
-    
+
     observer.observe(document.documentElement, { attributes: true });
     return () => observer.disconnect();
   }, []);
@@ -80,7 +77,7 @@ const ArchitectureDiagrams = () => {
           </button>
         ))}
       </div>
-      
+
       {/* Diagram display - all rendered, visibility toggled */}
       <div className="p-4">
         <div className="flex justify-center">
