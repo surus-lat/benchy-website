@@ -6,7 +6,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background dot-pattern">
       <Header />
-      
+
       <main>
         {/* Hero - Full viewport, commanding presence */}
         <section className="flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
@@ -14,109 +14,225 @@ const Index = () => {
             benchy
           </h1>
           <p className="mx-auto max-w-2xl text-xl leading-relaxed text-muted-foreground md:text-2xl">
-            A benchmarking engine for evaluating AI systems on task-specific performance.
+            A semantic language and execution engine for benchmarking AI programs.
           </p>
           <p className="mt-10 font-mono text-sm tracking-widest font-medium text-muted-foreground/70">
             /&lt;task?&gt;/&lt;domain?&gt;/&lt;language?&gt;
           </p>
         </section>
 
-        {/* Installation */}
+        {/* Agent first */}
         <section className="px-6 py-24">
           <div className="mx-auto max-w-4xl">
-            <span className="section-label mb-4 block">Getting Started</span>
-            <h2 className="mb-8 text-3xl font-light text-foreground">
-              Installation
+            <span className="section-label mb-4 block">Agent first</span>
+            <h2 className="mb-4 text-3xl font-light text-foreground">
+              Paste this into your agent
             </h2>
+            <p className="mb-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              You don't need to learn a new tool. Copy this line into Claude, Codex, or any coding agent — it will install the engine and help you write the benchmark that represents your problem.
+            </p>
             <CodeBlock
-              code={`# Clone the repository
-git clone https://github.com/surus-lat/benchy.git
-cd benchy
-
-# Option 1: Setup script (recommended)
-bash setup.sh
-
-# Option 2: Manual with uv
-uv venv --python 3.12
-source .venv/bin/activate
-uv sync`}
+              code={`Install benchy from https://github.com/surus-lat/benchy (pip install -e .; requires Python 3.12+). Then help me write a benchmark YAML for my AI system and run it.`}
+              language="prompt"
+              title="to your agent"
+              wrap
             />
           </div>
         </section>
 
-        {/* Define */}
+        {/* One YAML */}
         <section className="bg-muted/10 px-6 py-24">
           <div className="mx-auto max-w-4xl">
-            <span className="section-label mb-4 block">Workflow</span>
+            <span className="section-label mb-4 block">The language</span>
             <h2 className="mb-4 text-3xl font-light text-foreground">
-              Define
+              One YAML defines a benchmark
             </h2>
             <p className="mb-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              Tasks are built using format handlers that provide data loading, prompt formatting, and metrics. Add a new task in ~30-50 lines of code.
+              A benchmark is completely specified by a program, a scoring function, and a dataset — B = (P, S, D) — and it is separate from the AI-system taking it. A run binds the two: R = (B, AI). One file says what the program is, what "good" means, and where the exam lives.
             </p>
             <CodeBlock
-              code={`# Tasks use format handlers for data, prompts, and metrics
-# Handlers: MultipleChoice, Structured, Freeform, Multimodal
+              code={`version: "1.0"
+ontology_version: "1.0"
 
-class DocumentExtraction(StructuredHandler):
-    name = "document_extraction"
-    dataset = "extraction_bench"
-    
-    # Handlers provide: data loading, prompt formatting,
-    # metrics calculation, and capability checking`}
-              language="python"
+benchmark:
+  task: extract          # /task/domain/language — the shared SURUS ontology
+  domain: finance
+  language: es
+
+program:                 # the typed contract: P : X -> Y
+  input:
+    text: string
+  output:
+    invoice_number: string
+    date: date
+    supplier:
+      name: string
+      tax_id: string
+    subtotal: float
+    total: float
+
+scoring:                 # the output leaves ARE the scoring dimensions
+  weights:
+    invoice_number: 1
+    date: 1
+    supplier:
+      name: 1
+      tax_id: 0          # validated, reported, but does not move the score
+    subtotal: 1
+    total: 5             # what the business actually cares about
+  aggregator: weighted_mean
+
+data:
+  path: ./exam.jsonl
+
+ai-system:
+  type: external
+  id: invoice-extractor-v7`}
+              language="yaml"
+              title="benchmark.yaml"
+            />
+          </div>
+        </section>
+
+        {/* The program */}
+        <section className="px-6 py-24">
+          <div className="mx-auto max-w-4xl">
+            <span className="section-label mb-4 block">The program</span>
+            <h2 className="mb-4 text-3xl font-light text-foreground">
+              A typed contract: P : X → Y
+            </h2>
+            <p className="mb-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              Programs use fixed schemas of named input and output fields. The leaf output fields are the scoring dimensions: fixed output schema, fixed scoring dimensions, fixed field weights.
+            </p>
+            <CodeBlock
+              code={`program:
+  input:
+    text: string
+  output:
+    invoice_number: string
+    date: date
+    supplier:
+      name: string
+      tax_id: string
+    subtotal: float
+    total: float`}
+              language="yaml"
+              title="program"
+            />
+          </div>
+        </section>
+
+        {/* The scoring function */}
+        <section className="bg-muted/10 px-6 py-24">
+          <div className="mx-auto max-w-4xl">
+            <span className="section-label mb-4 block">The scoring function</span>
+            <h2 className="mb-4 text-3xl font-light text-foreground">
+              What "good" means, in numbers
+            </h2>
+            <p className="mb-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              Every output leaf needs exactly one explicit weight. A field can be validated and reported without moving the score — and the biggest weight sits on what the business actually cares about. Every run also reports each field against a trivial baseline computed from the exam itself, so a field that does not beat doing nothing is reported as such.
+            </p>
+            <CodeBlock
+              code={`scoring:
+  weights:
+    invoice_number: 1
+    date: 1
+    supplier:
+      name: 1
+      tax_id: 0    # validated, reported, but does not move the score
+    subtotal: 1
+    total: 5       # what the business actually cares about
+  aggregator: weighted_mean`}
+              language="yaml"
+              title="scoring"
+            />
+          </div>
+        </section>
+
+        {/* The AI-system */}
+        <section className="px-6 py-24">
+          <div className="mx-auto max-w-4xl">
+            <span className="section-label mb-4 block">The AI-system</span>
+            <h2 className="mb-4 text-3xl font-light text-foreground">
+              Any system, one contract
+            </h2>
+            <p className="mb-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              A single model, a model with an optimized prompt, a composed workflow, a tool-using agent — all the same thing from outside. The engine knows exactly one runtime contract: a named-field input object in, a named-field output object out. Everything about how your system runs lives on your side of that line.
+            </p>
+            <CodeBlock
+              code={`# your own code, bound at the command line
+ai-system:
+  type: external
+  id: invoice-extractor-v7
+
+# or a model — benchy picks a built-in adapter
+ai-system:
+  type: model
+  provider: together               # together | bedrock | openai
+  model: Qwen/Qwen3.8-2.4T-A95B
+  prompt: ./prompt.md              # optional`}
+              language="yaml"
+              title="ai-system"
             />
           </div>
         </section>
 
         {/* Run */}
-        <section className="px-6 py-24">
+        <section className="bg-muted/10 px-6 py-24">
           <div className="mx-auto max-w-4xl">
             <span className="section-label mb-4 block">Execution</span>
             <h2 className="mb-4 text-3xl font-light text-foreground">
-              Run
+              Compile once, run from the IR
             </h2>
             <p className="mb-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              Execute benchmarks locally with vLLM or use cloud providers like OpenAI, Anthropic, or Together.
+              Valid YAML compiles deterministically into a canonical JSON IR, and the engine consumes only the IR — it never reinterprets source. The same benchmark runs against an offline stand-in, Together, Claude on Bedrock, or a picture of the invoice: only <span className="font-mono text-base">ai-system</span> differs.
             </p>
             <CodeBlock
-              code={`# Cloud provider (OpenAI)
-benchy eval --model-name gpt-4o-mini --tasks document_extraction --limit 10
+              code={`# run straight from the YAML
+benchy run examples/invoices/benchmark.yaml \\
+  --adapter examples/invoices/system.py:extractor
 
-# Local with vLLM
-benchy eval --model-name meta-llama/Llama-3.1-8B-Instruct \\
-  --provider vllm --vllm-config vllm_two_cards_mm --tasks document_extraction --limit 10`}
+# or compile once and run from the IR — identical result
+benchy compile benchmark.yaml -o ir.json
+benchy run ir.json --adapter system.py:extractor`}
+              title="terminal"
             />
+            <div className="mt-6">
+              <CodeBlock
+                code={`{
+  "version": "1.0",
+  "benchmark_score": 0.8148148148148149,
+  "summary": {"examples": 3, "valid": 3, "invalid_outputs": 0, "execution_errors": 0},
+  "results": [...]
+}`}
+                language="json"
+                title="result"
+              />
+            </div>
           </div>
         </section>
 
-        {/* Analyze */}
-        <section className="bg-muted/10 px-6 py-24">
+        {/* What it refuses */}
+        <section className="px-6 py-24">
           <div className="mx-auto max-w-4xl">
-            <span className="section-label mb-4 block">Results</span>
+            <span className="section-label mb-4 block">No repair, by design</span>
             <h2 className="mb-4 text-3xl font-light text-foreground">
-              Analyze
+              It accepts, or it rejects
             </h2>
             <p className="mb-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              Results are structured for easy comparison and analysis.
+              There is no normalization layer and no repair: compilation does not infer missing semantics or inject defaults. Duplicate keys, anchors, aliases and merge keys are rejected — one semantic concept, one syntax. A failure keeps <span className="font-mono text-base">null</span> so the diagnosis survives, and contributes 0 so it cannot vanish from the average.
             </p>
             <CodeBlock
-              code={`{
-  "task": "document_extraction",
-  "model": "gpt-4o-mini",
-  "samples": 10,
-  "metrics": {
-    "accuracy": 0.85,
-    "f1_score": 0.89
-  }
-}`}
+              code={`{"phase": "compile", "code": "missing_weight", "path": ["supplier", "tax_id"],
+ "message": "output leaf has no weight"}`}
               language="json"
+              title="structured diagnostic"
             />
           </div>
         </section>
 
         {/* Architecture */}
-        <section id="docs" className="px-6 py-24">
+        <section id="docs" className="bg-muted/10 px-6 py-24">
           <div className="mx-auto max-w-5xl">
             <span className="section-label mb-4 block text-center">Documentation</span>
             <h2 className="mb-10 text-center text-3xl font-light text-foreground">
@@ -126,11 +242,32 @@ benchy eval --model-name meta-llama/Llama-3.1-8B-Instruct \\
           </div>
         </section>
 
+        {/* Paper */}
+        <section className="px-6 py-24">
+          <div className="mx-auto max-w-4xl text-center">
+            <span className="section-label mb-4 block">The paper</span>
+            <h2 className="mb-4 text-3xl font-light text-foreground">
+              Towards a universal language for task-oriented AI benchmarks
+            </h2>
+            <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              The semantic object model, the ontology and the task-to-program validation rule, the scoring and failure semantics, and the compilation and execution architecture.
+            </p>
+            <a
+              href="https://arxiv.org/abs/2609.30550"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-sm tracking-widest font-medium text-muted-foreground/70 transition-colors hover:text-primary"
+            >
+              arXiv:2609.30550 →
+            </a>
+          </div>
+        </section>
+
         {/* Footer */}
         <footer className="px-6 py-8">
           <div className="flex items-center justify-center gap-4">
-            <a 
-              href="https://discord.com/invite/VSqAr8BhKV" 
+            <a
+              href="https://discord.com/invite/VSqAr8BhKV"
               className="text-muted-foreground/60 transition-colors hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
